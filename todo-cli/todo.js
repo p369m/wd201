@@ -8,28 +8,46 @@ const todoList = () => {
   }
 
   const overdue = () => {
-    const today = new Date()
-      return all.filter(item => new Date(item.dueDate) < today && !item.completed)
-    // Write the date check condition here and return the array
-    // of overdue items accordingly.
+    return all.filter((item)=>{
+      return item.dueDate<today
+    }
+    )
   }
 
   const dueToday = () => {
-    const today = new Date()
-      return all.filter(item => new Date(item.dueDate).toDateString() === today.toDateString() && !item.completed)
-    // Write the date check condition here and return the array
-    // of todo items that are due today accordingly.
+    return all.filter((item)=>{
+      return item.dueDate===today
+    }
+    )
   }
 
   const dueLater = () => {
-    const today = new Date()
-      return all.filter(item => new Date(item.dueDate) > today && !item.completed)
+    return all.filter((item)=>{
+      return item.dueDate>today
+    }
     // Write the date check condition here and return the array
     // of todo items that are due later accordingly.
+    )
   }
 
   const toDisplayableList = (list) => {
-    return list.map((item, index) => `${index + 1}. ${item.title} - ${item.dueDate}`).join('\n')
+    let returnlist = [];
+        list.forEach((item) => {
+            if (item.dueDate === today) {
+                if (item.completed === true) {
+                    returnlist.push(`[x] ${item.title}`)
+                } else {
+                    returnlist.push(`[ ] ${item.title}`)
+                }
+            } else {
+                if (item.completed === true) {
+                    returnlist.push(`[x] ${item.title} ${item.dueDate}`)
+                }else{
+                    returnlist.push(`[ ] ${item.title} ${item.dueDate}`)
+                }
+            }
+        })
+        return returnlist.join("\n")
     // Format the To-Do list here, and return the output string
     // as per the format given above.
   }
