@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form:</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Link to your CSS file -->
+  </head>
+  <body>
+    <div class="main">
+      <div class="input-box">
+        <p>Registration Form</p>
+        <form id="form">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <label for="dob">Date of Birth</label>
+          <input type="date" name="dob" id="dob" required />
+
+          <div id="terms">
+            <input
+              type="checkbox"
+              name="terms"
+              id="terms-checkbox"
+              checked
+              required
+            />
+            <label for="terms-checkbox">
+              <p>Accept Terms & Conditions</p>
+            </label>
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="output-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Dob</th>
+              <th>Accepted terms?</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("form");
+        const tableBody = document.getElementById("table-body");
+
+        // Function to load entries from localStorage and populate the table
+        const loadEntries = () => {
+          const entries = JSON.parse(localStorage.getItem("entries")) || [];
+          tableBody.innerHTML = entries
+            .map(
+              (entry) => `
+        <tr>
+          <td>${entry.name}</td>
+          <td>${entry.email}</td>
+          <td>${entry.password}</td>
+          <td>${entry.dob}</td>
+          <td>${entry.terms ? "true" : "false"}</td>
+        </tr>
+      `
+            )
+            .join("");
+        };
+
+        // Function to format date to YYYY-MM-DD
+        const formatDate = (date) => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        };
+
+        // Function to add a new entry to localStorage and update the table
+        const addEntry = (entry) => {
+          const entries = JSON.parse(localStorage.getItem("entries")) || [];
+          entries.push(entry);
+          localStorage.setItem("entries", JSON.stringify(entries));
+          loadEntries(); // Update the table after adding the entry
+        };
+
+        // Form submission handler
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const dobInput = document.getElementById("dob").value;
+          const dob = new Date(dobInput);
+          const terms = document.getElementById("terms-checkbox").checked;
+
+          // Validate email
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(email)) {
+            alert("Invalid email address.");
+            return;
+          }
+
+          // Validate age (18-55)
+          const today = new Date();
+          let age = today.getFullYear() - dob.getFullYear();
+          if (
+            today.getMonth() < dob.getMonth() ||
+            (today.getMonth() === dob.getMonth() &&
+              today.getDate() < dob.getDate())
+          ) {
+            age--;
+          }
+          if (age < 18 || age > 55) {
+            alert("You must be between 18 and 55 years old.");
+            return;
+          }
+
+          // Create an entry object with formatted DOB
+          const entry = {
+            name,
+            email,
+            password,
+            dob: formatDate(dob),
+            terms,
+          };
+
+          // Add the new entry
+          addEntry(entry);
+          form.reset(); // Clear the form fields
+        });
+
+        // Initial load of entries
+        loadEntries();
+      });
+    </script>
+  </body>
+</html>
