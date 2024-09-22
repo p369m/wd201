@@ -26,6 +26,7 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
+    "minimist": "^1.2.8",
     "sequelize": "^6.37.3"
   }
 }
