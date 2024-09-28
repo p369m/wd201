@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "husky": "^9.1.5"
+    "husky": "^9.1.5",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "sequelize": "^6.37.3"
