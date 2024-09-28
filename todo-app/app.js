@@ -63,11 +63,14 @@ app.delete("/todos/:id", async function (request, response) {
   // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
   // response.send(true)
   try {
-    await Todo.destroy({
+    const deletedCount = await Todo.destroy({
       where: {
         id: request.params.id,
       },
     });
+    if (deletedCount === 0) {
+      return response.status(404).send(false);
+    }
     response.send(true);
   } catch (error) {
     console.log(error);
