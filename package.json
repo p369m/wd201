@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "husky": "^9.1.5"
+  },
+  "dependencies": {
+    "sequelize": "^6.37.3"
   }
 }
