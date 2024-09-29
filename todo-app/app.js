@@ -10,10 +10,25 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", async function (request, response) {
   const allTodos = await Todo.getAll();
+  const today = new Date().setHours(0, 0, 0, 0);
+
+  // Categorize todos
+  const overdueTodos = allTodos.filter(
+    (todo) =>
+      new Date(todo.dueDate).setHours(0, 0, 0, 0) < today && !todo.completed
+  );
+  const dueTodayTodos = allTodos.filter(
+    (todo) =>
+      new Date(todo.dueDate).setHours(0, 0, 0, 0) === today && !todo.completed
+  );
+  const dueLaterTodos = allTodos.filter(
+    (todo) =>
+      new Date(todo.dueDate).setHours(0, 0, 0, 0) > today && !todo.completed
+  );
   if (request.accepts("html")) {
-    response.render("index", { allTodos });
+    response.render("index", { overdueTodos, dueTodayTodos, dueLaterTodos });
   } else {
-    response.json({ allTodos });
+    response.json({ overdueTodos, dueTodayTodos, dueLaterTodos });
   }
 });
 

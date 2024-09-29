@@ -1,15 +1,29 @@
-<!-- Table to list todo items -->
-<table>
-  <thead>
-    <tr>
-      <th>Todo Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for (let i = 0; i < allTodos.length; i++) { %>
-    <tr>
-      <td><%= allTodos[i].title %></td>
-    </tr>
-    <% } %>
-  </tbody>
-</table>
+<section>
+  <!-- Overdue Todos Section -->
+  <h5>Overdue (<span id="count-overdue"><%= overdueTodos.length %></span>)</h5>
+  <ul>
+    <% overdueTodos.forEach(todo => { %>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
+    <% }) %>
+  </ul>
+
+  <!-- Todos Due Today Section -->
+  <h5>
+    Due Today (<span id="count-due-today"><%= dueTodayTodos.length %></span>)
+  </h5>
+  <ul>
+    <% dueTodayTodos.forEach(todo => { %>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
+    <% }) %>
+  </ul>
+
+  <!-- Todos Due Later Section -->
+  <h5>
+    Due Later (<span id="count-due-later"><%= dueLaterTodos.length %></span>)
+  </h5>
+  <ul>
+    <% dueLaterTodos.forEach(todo => { %>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
+    <% }) %>
+  </ul>
+</section>

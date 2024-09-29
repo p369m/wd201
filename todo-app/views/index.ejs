@@ -4,17 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <title>Todo List</title>
+    <title>Todo List Application</title>
   </head>
   <body>
     <%- include('header.ejs') %>
 
-    <!-- Header with specified content -->
-    <h1>This is my Todo Application</h1>
+    <!-- Form to create a new todo -->
+    <form onsubmit="createTodo(); return false;">
+      <input
+        type="text"
+        id="todo-title"
+        placeholder="Enter todo title"
+        required
+      />
+      <input type="date" id="todo-due" required />
+      <button type="submit">Add</button>
+    </form>
 
-    <!-- Table to list todo items -->
-    <%- include('todos.ejs') %>
-    <!-- Footer with specified content -->
-    <%- include('footer.ejs') %>
+    <!-- Section to list todos -->
+    <%- include('todos.ejs', { overdueTodos, dueTodayTodos, dueLaterTodos }) %>
+
+    <script>
+      // Function to handle the creation of a new todo
+      function createTodo() {
+        const title = document.getElementById("todo-title").value;
+        const dueDate = document.getElementById("todo-due").value;
+
+        if (title && dueDate) {
+          fetch("/todos", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, dueDate }),
+          })
+            .then((response) => response.json())
+            .then(() => {
+              window.location.reload(); // Reload the page to see updated todo list
+            })
+            .catch((error) => {
+              console.error("Error adding todo:", error);
+            });
+        } else {
+          alert("Please fill in both fields.");
+        }
+      }
+    </script>
   </body>
 </html>
