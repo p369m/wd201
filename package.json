@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start:prod": "node todo-app/index.js",
     "start": "nodemon todo-app/index.js"
   },
   "keywords": [],
