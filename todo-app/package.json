@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:prod": "node index.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "start:prod": "npm run migrate && node index.js",
     "test": "jest",
     "start": "nodemon index.js"
   },
