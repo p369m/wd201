@@ -1,9 +1,23 @@
 {
+  "name": "hello-world",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon todo-app/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
     "husky": "^9.1.5",
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "ejs": "^3.1.10",
+    "nodemon": "^3.1.7",
+    "pg": "^8.13.0",
     "sequelize": "^6.37.3"
   }
 }
