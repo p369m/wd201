@@ -8,13 +8,13 @@
   </head>
   <body>
     <%- include('header.ejs') %>
-    <h1>Todo List</h1>
-    <table>
-      <% for (let i = 0; i < allTodos.length; i++) { %>
-      <tr>
-        <td><%= allTodos[i].title %></td>
-      </tr>
-      <% } %>
-    </table>
+
+    <!-- Header with specified content -->
+    <h1>This is my Todo Application</h1>
+
+    <!-- Table to list todo items -->
+    <%- include('todos.ejs') %>
+    <!-- Footer with specified content -->
+    <%- include('footer.ejs') %>
   </body>
 </html>
